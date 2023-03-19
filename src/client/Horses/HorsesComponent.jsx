@@ -1,5 +1,5 @@
 // src/components/HorseList.js
-
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -81,6 +81,12 @@ const HorseList = () => {
     }
   }
 
+  const formatDate = (dateValue) => {
+    return !isNaN(Date.parse(dateValue))
+        ? new Date(dateValue).toLocaleDateString()
+        : '';
+};
+
   return (
     <div>
       <h1>Lovak listája</h1>
@@ -147,7 +153,7 @@ const HorseList = () => {
             }}
           >
             <p>Név: {horse.horse_name}</p>
-            <p>Születési Dátum: {new Date(horse.horse_birthdate).toISOString().split('T')[0]}</p>
+            <p>Születési Dátum: {formatDate(horse.horse_birthdate)}</p>
             <p>Apja: {horse.horse_father}</p>
             <p>Anyja: {horse.horse_mother}</p>
             <p>Neme: {horse.gender}</p>
@@ -156,8 +162,9 @@ const HorseList = () => {
             <p>Foglalkoztatás: {horse.work_type}</p>
             <p>Útlevélszáma: {horse.passport_number}</p>
             <p>Chipszáma: {horse.chip_number}</p>
-            <p>Vérvétel dátuma: {new Date(horse.blood_test_date).toISOString().split('T')[0]}</p>
-            <p>Vakcina dátuma: {new Date(horse.vaccination_date).toISOString().split('T')[0]}</p>
+            <p>Vérvétel dátuma: {formatDate(horse.blood_test_date)}</p>
+            <p>Vakcina dátuma: {formatDate(horse.vaccination_date)}</p>
+            <Link to={`/update/${horse.id}`}><button>Módosítás</button></Link>
           </div>
         ))}
       </div>

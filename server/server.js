@@ -6,6 +6,7 @@ const app = express();
 const port = process.env.PORT || 5001;
 
 app.use(cors());
+app.use(express.json());
 
 const config = {
   user: 'kincsesbence',
@@ -28,6 +29,49 @@ app.get('/horses', async (req, res) => {
   }
 });
 
+app.put('/horses/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { work_type, vaccination_date, blood_test_date } = req.body;
+  
+      const updateQuery = `
+        UPDATE horses
+        SET work_type = $1, vaccination_date = $2, blood_test_date = $3
+        WHERE id = $4
+      `;
+  
+      await client.query(updateQuery, [work_type, vaccination_date, blood_test_date, id]);
+  
+      res.status(200).json({ message: `Ló adatai frissítve az ID: ${id} alapján.` });
+    } catch (error) {
+      console.error('Hiba történt a ló adatainak frissítése közben:', error);
+      res.status(500).json({ error: 'Hiba történt a ló adatainak frissítése közben.' });
+    }
+  });
+  
+  app.get('/horses/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log(`Lekérdezés azonosítója: ${id}`); // Hozzáadott console.log
+
+      const selectQuery = `
+        SELECT * FROM horses WHERE id = $1
+      `;
+  
+      const result = await client.query(selectQuery, [id]);
+  
+      if (result.rowCount > 0) {
+        res.status(200).json(result.rows[0]);
+      } else {
+        res.status(404).json({ message: `Nem található ló az ID: ${id} alapján.` });
+      }
+    } catch (error) {
+      console.error('Hiba történt a ló lekérdezése közben:', error);
+      res.status(500).json({ error: 'Hiba történt a ló lekérdezése közben.' });
+    }
+  });
+  
+  
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });

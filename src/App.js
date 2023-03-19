@@ -6,6 +6,8 @@ import Home from "./client/Home/Home";
 import Navigation from "./client/Navigation/Navigation";
 import HorseList from "./client/Horses/HorsesComponent";
 import Footer from "./client/Footer/Footer"
+import UpdateHorse from "./client/Update/UpdateHorse";
+
 function App() {
 
   return (
@@ -14,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/horses" element={<HorseList />} />
+          <Route path="/update/:id" element={<UpdateHorse/>} />
         </Routes>
         <Footer />
       </Router>
