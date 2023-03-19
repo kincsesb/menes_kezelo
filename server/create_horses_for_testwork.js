@@ -1,5 +1,4 @@
 const { Client } = require('pg');
-const faker = require('faker'); // Telepítsd a faker csomagot a 'npm install faker' paranccsal
 
 const config = {
     user: 'kincsesbence',
@@ -9,74 +8,153 @@ const config = {
     database: 'matai_menes_menes_kezelo',
 };
 
-const client = new Client(config);
+function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
 
-const insertHorse = (horse) => {
-    return new Promise((resolve, reject) => {
-        const query = `
-        INSERT INTO public.horses (
-            horse_name, horse_birthdate, horse_father, horse_mother, 
-            bred, color, work_type, passport_number, chip_number, 
-            blood_test_date, vaccination_date
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-        `;
+const menNames = [
+    "Atlasz-8",
+    "Bajnok-11",
+    "Báró-39",
+    "Bársony-4",
+    "Bikadér-3",
+    "Bársonyos-3",
+    "Cigány-3",
+    "Cigány-40",
+    "Csajág-9",
+    "Csákó-34",
+];
 
-        const values = [
-            horse.horse_name,
-            horse.horse_birthdate,
-            horse.horse_father,
-            horse.horse_mother,
-            horse.bred,
-            horse.color,
-            horse.work_type,
-            horse.passport_number,
-            horse.chip_number,
-            horse.blood_test_date,
-            horse.vaccination_date,
-        ];
+const kancaNames = [
+    "Fáni-15",
+    "Fagyöngy-8",
+    "Fehér-28",
+    "Fecske-15",
+    "Fény-7",
+    "Fodor-5",
+    "Fogoly-5",
+    "Foltos-3",
+    "Foltos-22",
+    "Füge-3",
+];
 
-        client.query(query, values, (err, res) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(res);
-            }
-        });
-    });
-};
+const horseNames = [
+    "Gazdag-4",
+    "Eperjes-9",
+    "Norma-13",
+    "Enyelgő-14",
+    "Paso Doble-18",
+    "Jojoba-22",
+    "Für Elise-25",
+    "Kamilla-28",
+    "Báró-34",
+    "Várda-38",
+    "Vezuv-43",
+    "Csatlós-47",
+    "Piedone-51",
+    "Pandora-56",
+    "Pinka-59",
+    "Gazdag-63",
+    "Nótás-67",
+    "Kozák-72",
+    "Lurkó-75",
+    "Vezlr-79",
+];
 
-const createFakeHorse = () => {
-    return {
-        horse_name: faker.name.firstName(),
-        horse_birthdate: faker.date.past(10),
-        horse_father: faker.name.firstName(),
-        horse_mother: faker.name.firstName(),
-        bred: faker.random.arrayElement(['Nóniusz', 'Magyar Sport']),
-        color: faker.random.arrayElement(['Pej', 'Sárga','Nyári Fekete','Szürke','Fekete']),
-        work_type: faker.random.arrayElement(['Verseny', 'Csikós Hátas', 'Info Fogat', 'Tenyész kanca','Választási Nóniusz csikíó']),
-        passport_number: faker.random.number({ min: 100000, max: 999999 }),
-        chip_number: faker.random.number({ min: 100000, max: 999999 }),
-        blood_test_date: faker.date.past(2),
-        vaccination_date: faker.date.past(1),
+const workTypes = [
+    "Csikós hátas",
+    "Infó fogat",
+    "Magyar Sport Tenyész kanca",
+    "Nóniusz Tenyész kanca",
+    "Verseny"
+];
+
+const genders = [
+    "Mén",
+    "Kanca"
+];
+
+const breeds = [
+    "Magyar Sport ló",
+    "Nóniusz"
+];
+
+const colors = [
+    "Pej",
+    "Sárga",
+    "Fekete",
+    "Nyári Fekete",
+    "Szürke"
+];
+
+function generateRandomHorse() {
+    const horse = {
+        horse_name: getRandomElement(horseNames),
+        horse_birthdate: new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365)),
+        horse_father: getRandomElement(menNames),
+        horse_mother: getRandomElement(kancaNames),
+        gender: getRandomElement(genders),
+        bred: getRandomElement(breeds),
+        color: getRandomElement(colors),
+        work_type: getRandomElement(workTypes),
+        passport_number: Math.floor(Math.random() * 1000000),
+        chip_number: Math.floor(Math.random() * 1000000),
+        blood_test_date: new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365)),
+        vaccination_date: new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365)),
     };
-};
 
-client.connect(async (err) => {
-    if (err) {
-        console.error('Kapcsolódási hiba:', err.stack);
-    } else {
-        console.log('Sikeresen kapcsolódva a adatbázishoz.');
+    return horse;
+}
 
-        for (let i = 0; i < 20; i++) {
-            const fakeHorse = createFakeHorse();
-            try {
-                await insertHorse(fakeHorse);
-                console.log(`#${i + 1} ló hozzáadva: ${fakeHorse.horse_name}`);
-            } catch (err) {
-                console.error(`Hiba történt a(z) ${fakeHorse.horse_name} ló hozzáadása közben:`, err);
-            }
-        }
+const client = new Client(config);
+client.connect();
 
-        client.end();
+async function insertHorse(horse) {
+    const query = `
+    INSERT INTO public.horses (
+      horse_name,
+      horse_birthdate,
+      horse_father,
+      horse_mother,
+      gender,
+      bred,
+      color,
+      work_type,
+      passport_number,
+      chip_number,
+      blood_test_date,
+      vaccination_date
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
+  `;
+
+    const values = [
+        horse.horse_name,
+        horse.horse_birthdate,
+        horse.horse_father,
+        horse.horse_mother,
+        horse.gender,
+        horse.bred,
+        horse.color,
+        horse.work_type,
+        horse.passport_number,
+        horse.chip_number,
+        horse.blood_test_date,
+        horse.vaccination_date,
+    ];
+
+    try {
+        await client.query(query, values);
+        console.log(`A ló, ${horse.horse_name}, sikeresen hozzáadva a horses táblához.`);
+    } catch (err) {
+        console.error('Hiba a ló hozzáadása közben:', err);
     }
-});
+}
+
+(async () => {
+    for (let i = 0; i < 20; i++) {
+        const horse = generateRandomHorse();
+        await insertHorse(horse);
+    }
+
+    client.end();
+})();

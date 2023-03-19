@@ -23,6 +23,7 @@ client.connect((err) => {
         horse_birthdate DATE NOT NULL,
         horse_father VARCHAR NOT NULL,
         horse_mother VARCHAR NOT NULL,
+        gender VARCHAR NOT NULL,
         bred VARCHAR NOT NULL,
         color VARCHAR NOT NULL,
         work_type VARCHAR NOT NULL,
