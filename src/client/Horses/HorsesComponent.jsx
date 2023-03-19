@@ -5,6 +5,16 @@ import axios from 'axios';
 
 const HorseList = () => {
   const [horses, setHorses] = useState([]);
+  const [searchName, setSearchName] = useState('');
+  const [filteredHorses, setFilteredHorses] = useState([]);
+  const [searchChip, setSearchChip] = useState('');
+  const [searchPassport, setSearchPassport] = useState('');
+  const [searchColor, setSearchColor] = useState('');
+  const [searchBreed, setSearchBreed] = useState('');
+  const [searchGender, setSearchGender] = useState('');
+  const [searchWorkType, setSearchWorkType] = useState('');
+  const [sortCriteria, setSortCriteria] = useState('');
+  const [sortDirection, setSortDirection] = useState('');
 
   useEffect(() => {
     const fetchHorses = async () => {
@@ -19,21 +29,116 @@ const HorseList = () => {
     fetchHorses();
   }, []);
 
+  useEffect(() => {
+    const filterHorses = (horse) => {
+      return (
+        horse.horse_name.toLowerCase().includes(searchName.toLowerCase()) &&
+        horse.chip_number.toString().includes(searchChip) &&
+        horse.passport_number.toString().includes(searchPassport) &&
+        (searchColor === '' || horse.color === searchColor) &&
+        (searchBreed === '' || horse.bred === searchBreed) &&
+        (searchGender === '' || horse.gender === searchGender) &&
+        (searchWorkType === '' || horse.work_type === searchWorkType)
+      );
+    };
+
+    const filtered = horses.filter(filterHorses);
+    setFilteredHorses(filtered);
+  }, [horses, searchName, searchChip, searchPassport, searchColor, searchBreed, searchGender, searchWorkType]);
+
   function shouldHighlightHorse(horse) {
     const sixMonthsInMilliseconds = 6 * 30 * 24 * 60 * 60 * 1000;
+    const twoMonthsInMilliseconds = 2 * 30 * 24 * 60 * 60 * 1000;
     const currentDate = new Date();
     const vaccinationDate = new Date(horse.vaccination_date);
-    const timeDifference = currentDate - vaccinationDate;
+    const timeSinceVaccination = currentDate.getTime() - vaccinationDate.getTime();
+    const timeToVaccinationExpiry = vaccinationDate.getTime() + sixMonthsInMilliseconds - currentDate.getTime();
 
-    return horse.work_type === 'Verseny' && timeDifference >= 0 && timeDifference < sixMonthsInMilliseconds;
+
+
+    return (
+      horse.work_type === 'Verseny' &&
+      ((timeSinceVaccination >= sixMonthsInMilliseconds) ||
+      (timeToVaccinationExpiry >= 0 && timeToVaccinationExpiry < twoMonthsInMilliseconds))
+    );
   }
 
+  function sortHorses(a, b) {
+    if (sortCriteria === '') {
+      return 0;
+    }
+
+    const compare = (sortDirection === 'asc') ? 1 : -1;
+    const aDate = a[sortCriteria];
+    const bDate = b[sortCriteria];
+
+    if (aDate < bDate) {
+      return -1 * compare;
+    } else if (aDate > bDate) {
+      return 1 * compare;
+    } else {
+      return 0;
+    }
+  }
 
   return (
     <div>
       <h1>Lovak listája</h1>
+      <h2>Összes ló darabszám: {horses.length}</h2>
+      <input type="text" value={searchName} onChange={e => setSearchName(e.target.value)} placeholder="Név szűrő" />
+      <input type="text" value={searchChip} onChange={e => setSearchChip(e.target.value)} placeholder="Chipszám szűrő" />
+      <input type="text" value={searchPassport} onChange={e => setSearchPassport(e.target.value)} placeholder="Útlevélszám szűrő" />
+
+      <select value={searchColor} onChange={e => setSearchColor(e.target.value)}>
+        <option value="">Összes szín</option>
+        <option value="Pej">Pej</option>
+        <option value="Sárga">Sárga</option>
+        <option value="Fekete">Fekete</option>
+        <option value="Szürke">Szürke</option>
+        <option value="Nyári Fekete">Nyári Fekete</option>
+      </select>
+
+      <select value={searchBreed} onChange={e => setSearchBreed(e.target.value)}>
+        <option value="">Összes fajta</option>
+        <option value="Magyar Sport ló">Magyar Sport ló</option>
+        <option value="Nóniusz">Nóniusz</option>
+      </select>
+
+      <select value={searchGender} onChange={e => setSearchGender(e.target.value)}>
+        <option value="">Összes nem</option>
+        <option value="Mén">Mén</option>
+        <option value="Kanca">Kanca</option>
+      </select>
+
+      <select value={searchWorkType} onChange={e => setSearchWorkType(e.target.value)}>
+        <option value="">Összes foglalkoztatás</option>
+        <option value="Csikós hátas">Csikós hátas</option>
+        <option value="Infó fogat">Infó fogat</option>
+        <option value="Magyar Sport Tenyész kanca">Magyar Sport Tenyész kanca</option>
+        <option value="Nóniusz Tenyész kanca">Nóniusz Tenyész kanca</option>
+        <option value="Verseny">Verseny</option>
+      </select>
+
+      <select
+        value={sortCriteria}
+        onChange={e => setSortCriteria(e.target.value)}
+      >
+        <option value="">Rendezési szempont</option>
+        <option value="blood_test_date">Vérvétel dátuma</option>
+        <option value="vaccination_date">Vakcina dátuma</option>
+      </select>
+
+      <select
+        value={sortDirection}
+        onChange={e => setSortDirection(e.target.value)}
+      >
+        <option value="">Rendezési irány</option>
+        <option value="asc">Növekvő</option>
+        <option value="desc">Csökkenő</option>
+      </select>
+
       <div className='container'>
-        {horses.map((horse) => (
+        {filteredHorses.sort(sortHorses).map((horse) => (
           <div
             key={horse.id}
             className='horse'
