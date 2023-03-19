@@ -71,7 +71,51 @@ app.put('/horses/:id', async (req, res) => {
     }
   });
   
-  
+  app.post('/horses', async (req, res) => {
+    try {
+        const {
+            horse_name,
+            horse_birthdate,
+            horse_father,
+            horse_mother,
+            gender,
+            bred,
+            color,
+            work_type,
+            passport_number,
+            chip_number,
+            blood_test_date,
+            vaccination_date,
+        } = req.body;
+
+        const insertQuery = `
+            INSERT INTO horses (
+                horse_name, horse_birthdate, horse_father, horse_mother, gender, bred, color, work_type, passport_number, chip_number, blood_test_date, vaccination_date
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+        `;
+
+        await client.query(insertQuery, [
+            horse_name,
+            horse_birthdate,
+            horse_father,
+            horse_mother,
+            gender,
+            bred,
+            color,
+            work_type,
+            passport_number,
+            chip_number,
+            blood_test_date,
+            vaccination_date,
+        ]);
+
+        res.status(201).json({ message: 'Ló sikeresen hozzáadva.' });
+    } catch (error) {
+        console.error('Hiba történt a ló hozzáadása közben:', error);
+        res.status(500).json({ error: 'Hiba történt a ló hozzáadása közben.' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });

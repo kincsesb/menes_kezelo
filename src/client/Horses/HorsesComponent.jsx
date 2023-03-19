@@ -90,7 +90,7 @@ const HorseList = () => {
   return (
     <div>
       <h1>Lovak listája</h1>
-      <h2>Összes ló darabszám: {horses.length}</h2>
+      <h2>Összes ló darabszám: {filteredHorses.length}</h2>
       <input type="text" value={searchName} onChange={e => setSearchName(e.target.value)} placeholder="Név szűrő" />
       <input type="text" value={searchChip} onChange={e => setSearchChip(e.target.value)} placeholder="Chipszám szűrő" />
       <input type="text" value={searchPassport} onChange={e => setSearchPassport(e.target.value)} placeholder="Útlevélszám szűrő" />
@@ -114,6 +114,7 @@ const HorseList = () => {
         <option value="">Összes nem</option>
         <option value="Mén">Mén</option>
         <option value="Kanca">Kanca</option>
+        <option value="Herélt">Herélt</option>
       </select>
 
       <select value={searchWorkType} onChange={e => setSearchWorkType(e.target.value)}>
@@ -143,6 +144,7 @@ const HorseList = () => {
         <option value="desc">Csökkenő</option>
       </select>
 
+      <Link to={`/addhorse`}><button>Ló hozzáadása</button></Link>
       <div className='container'>
         {filteredHorses.sort(sortHorses).map((horse) => (
           <div

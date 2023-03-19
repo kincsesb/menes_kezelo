@@ -77,3 +77,10 @@ align-items: center;
     -webkit-backdrop-filter: blur(4.2px);
     border: 1px solid rgba(255, 255, 255, 0.54);
 }
+.addHorseClass{
+  display: block;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+}
