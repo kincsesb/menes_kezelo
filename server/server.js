@@ -158,6 +158,51 @@ app.delete('/horses/:id/notes', async (req, res) => {
   }
 });
 
+app.get('/api/events', (req, res) => {
+  client.query('SELECT * FROM calendar', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.status(200).json(results.rows);
+  });
+});
+
+app.post('/api/events', (req, res) => {
+  const { title, start_date, end_date } = req.body;
+  client.query('INSERT INTO calendar (title, start_date, end_date) VALUES ($1, $2, $3) RETURNING id', [title, start_date, end_date], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.status(201).send(`Event added with ID: ${results.rows[0].id}`);
+  });
+});
+
+app.put('/api/events/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const { title, start_date, end_date } = req.body;
+
+  client.query(
+    'UPDATE calendar SET title = $1, start_date = $2, end_date = $3 WHERE id = $4',
+    [title, start_date, end_date, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).send(`Event modified with ID: ${id}`);
+    }
+  );
+});
+
+app.delete('/api/events/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  client.query('DELETE FROM calendar WHERE id = $1', [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.status(200).send(`Event deleted with ID: ${id}`);
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

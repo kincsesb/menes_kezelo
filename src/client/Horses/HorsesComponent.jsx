@@ -98,8 +98,11 @@ const HorseList = () => {
 
   return (
     <div>
-      <h1>Lovak listája</h1>
-      <h2>Összes ló darabszám: {filteredHorses.length}</h2>
+      <div class="line-1"></div>
+      <div className='centered'>
+        <h1>Lovak listája</h1>
+        <h2>Összes ló darabszám: {filteredHorses.length}</h2>
+      </div>
       <div className='filters'>
         <input className='filter' type="text" value={searchName} onChange={e => setSearchName(e.target.value)} placeholder="Név szűrő" />
         <input className='filter' type="text" value={searchChip} onChange={e => setSearchChip(e.target.value)} placeholder="Chipszám szűrő" />
@@ -135,7 +138,7 @@ const HorseList = () => {
           <option value="Nyári Fekete">Nyári Fekete</option>
         </select>
 
-        <input type="text" className='filter' value={searchBreed} onChange={e=> setSearchBreed(e.target.value)} placeholder="Fajta szűrő"/>
+        <input type="text" className='filter' value={searchBreed} onChange={e => setSearchBreed(e.target.value)} placeholder="Fajta szűrő" />
 
         <select className='filter' value={searchGender} onChange={e => setSearchGender(e.target.value)}>
           <option value="">Összes nem</option>
@@ -173,16 +176,19 @@ const HorseList = () => {
           <option value="desc">Csökkenő</option>
         </select>
 
-        <Link to={`/addhorse`}><button>Ló hozzáadása</button></Link>
-        <DownloadToExcel horses={filteredHorses} />
       </div>
+        <div className='centered'>
+          <Link to={`/addhorse`}><button className="margin-right">Ló hozzáadása</button></Link>
+          <DownloadToExcel horses={filteredHorses} />
+        </div>
+      <div class="line-1"></div>
       <div className='container'>
         {filteredHorses.sort(sortHorses).map((horse) => (
           <div
             key={horse.id}
             className='horse'
             style={{
-              backgroundColor: shouldHighlightHorse(horse) ? 'red' : 'transparent',
+              backgroundColor: shouldHighlightHorse(horse) ? 'red' : 'white',
             }}
           >
             <p id='horseName'>Név: {horse.horse_name}</p>

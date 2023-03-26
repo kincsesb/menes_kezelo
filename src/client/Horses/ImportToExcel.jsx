@@ -19,7 +19,7 @@ const DownloadToExcel = ({ horses }) => {
 
     return horses.map((horse) => ({
       name: horse.horse_name,
-      birthdate: horse.horse_birthdate,
+      birthdate: horse.horse_birthdate.split('T'),
       father: horse.horse_father,
       mother: horse.horse_mother,
       vaccinationDate: horse.vaccination_date.split('T'),
