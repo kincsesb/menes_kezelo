@@ -20,6 +20,20 @@ const AddHorse = () => {
         vaccination_date: '',
     });
 
+    const breedOptions = [
+        { value: 'Magyar Sport ló', label: 'Magyar Sport ló' },
+        { value: 'Nóniusz', label: 'Nóniusz' },
+        // Add other breeds here
+    ];
+
+    const handleBreedChange = (e) => {
+        setHorse({ ...horse, bred: e.target.value });
+    };
+
+    const handleBreedSelect = (e) => {
+        setHorse({ ...horse, bred: e.target.value });
+    };
+
     const handleChange = (e) => {
         setHorse({ ...horse, [e.target.name]: e.target.value });
     };
@@ -79,12 +93,25 @@ const AddHorse = () => {
                     onChange={handleChange}
                 />
                 <label htmlFor="bred">Fajta:</label>
-                <input
-                    type="text"
+                <select
                     id="bred"
                     name="bred"
                     value={horse.bred}
-                    onChange={handleChange}
+                    onChange={handleBreedSelect}
+                >
+                    <option value="">--Válassz fajtát--</option>
+                    {breedOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
+                <input
+                    type="text"
+                    id="bred_custom"
+                    name="bred_custom"
+                    placeholder="Új fajta hozzáadása"
+                    onChange={handleBreedChange}
                 />
                 <label htmlFor="color">Szín:</label>
                 <input

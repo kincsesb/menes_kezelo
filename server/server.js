@@ -49,6 +49,11 @@ app.put('/horses/:id', async (req, res) => {
     }
   });
   
+
+  //BLOB
+  //LONG TEXT
+  //A megjegyzés rovathoz
+  
   app.get('/horses/:id', async (req, res) => {
     try {
       const { id } = req.params;

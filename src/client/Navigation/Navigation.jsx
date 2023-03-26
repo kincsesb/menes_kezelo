@@ -8,8 +8,8 @@ function Navigation() {
     <div className="header">
         <div className="logo"> Ménes Kezelő </div>
           <div className="navbar">
-                <NavLink to="/" id="navbar_text"> Home </NavLink>
-                <NavLink to="/horses" id="navbar_text"> Horses </NavLink>
+                <NavLink to="/" id="navbar_text"> Főoldal </NavLink>
+                <NavLink to="/horses" id="navbar_text"> Lovak </NavLink>
           </div>
     </div>
   );
