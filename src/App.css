@@ -49,9 +49,15 @@ body {
 
 .home {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10%;
+
+}
+
+.temp {
+  display: grid;
+  margin: 0 30px 30px;
+  column-gap: 20px;
+  row-gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .filters {
