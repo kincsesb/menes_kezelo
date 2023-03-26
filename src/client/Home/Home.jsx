@@ -20,28 +20,30 @@ function Home() {
   }, []);
 
   return (
-    <div className="home">
-      {weatherData && (
-        <div>
-          <h2>Hortobágyi időjárás</h2>
-          <div className="temp">
-            <p>Ma: {weatherData.weather[0].description}</p>
-            <p>Hőmérséklet: {Math.round(weatherData.main.temp - 273.15)}°C</p>
-          </div>
-        </div>
-      )}
-      {weeklyData && (
-        <div>
-          <h2>Előrejelzés</h2>
-          {weeklyData.list.map((data, index) => (
-            <div key={index} className="temp">
-              <p>{data.dt_txt}</p>
-              <p>{data.weather[0].description}</p>
-              <p>{Math.round(data.main.temp - 273.15)}°C</p>
+    <div>
+      <div className="home">
+        {weatherData && (
+          <div>
+            <h2>Hortobágyi időjárás</h2>
+            <div className="temp">
+              <p>Ma: {weatherData.weather[0].description}</p>
+              <p>Hőmérséklet: {Math.round(weatherData.main.temp - 273.15)}°C</p>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        )}
+        {weeklyData && (
+          <div>
+            <h2>Előrejelzés</h2>
+            {weeklyData.list.map((data, index) => (
+              <div key={index} className="temp">
+                <p>{data.dt_txt}</p>
+                <p>{data.weather[0].description}</p>
+                <p>{Math.round(data.main.temp - 273.15)}°C</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

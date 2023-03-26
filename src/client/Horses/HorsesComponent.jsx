@@ -48,7 +48,7 @@ const HorseList = () => {
         horse.chip_number.toString().includes(searchChip) &&
         horse.passport_number.toString().includes(searchPassport) &&
         (searchColor === '' || horse.color === searchColor) &&
-        (searchBreed === '' || horse.bred === searchBreed) &&
+        horse.bred.toLowerCase().includes(searchBreed.toLowerCase()) &&
         (searchGender === '' || horse.gender === searchGender) &&
         (searchWorkType === '' || horse.work_type === searchWorkType)
       );
@@ -135,11 +135,7 @@ const HorseList = () => {
           <option value="Nyári Fekete">Nyári Fekete</option>
         </select>
 
-        <select className='filter' value={searchBreed} onChange={e => setSearchBreed(e.target.value)}>
-          <option value="">Összes fajta</option>
-          <option value="Magyar Sport ló">Magyar Sport ló</option>
-          <option value="Nóniusz">Nóniusz</option>
-        </select>
+        <input type="text" className='filter' value={searchBreed} onChange={e=> setSearchBreed(e.target.value)} placeholder="Fajta szűrő"/>
 
         <select className='filter' value={searchGender} onChange={e => setSearchGender(e.target.value)}>
           <option value="">Összes nem</option>
