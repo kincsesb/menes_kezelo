@@ -100,3 +100,43 @@ body {
   margin-left: 60px;
   margin-bottom: 20px;
 }
+
+.horseDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.horseDetails h2 {
+  margin-bottom: 20px;
+}
+
+.horseDetails p {
+  margin: 8px 0;
+  font-size: 18px;
+}
+
+.horseDetails textarea {
+  margin-top: 20px;
+  resize: none;
+  width: 100%;
+}
+
+.horseDetails button {
+  margin: 20px 0;
+  background-color: #3b3528;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.horseDetails button:hover {
+  background-color: #3b3528;
+}

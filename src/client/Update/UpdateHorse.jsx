@@ -79,20 +79,20 @@ const UpdateHorse = () => {
                     <option value="Magyar Sport Tenyész kanca">Magyar Sport Tenyész kanca</option>
                 </select>
 
-                <label htmlFor="vaccination_date">Vakcina dátuma:</label>
-                <input
-                    type="date"
-                    id="vaccination_date"
-                    value={vaccinationDate.split('T')[0]}
-                    onChange={(e) => setVaccinationDate(e.target.value)}
-                />
-
                 <label htmlFor="blood_test_date">Vérvétel dátuma:</label>
                 <input
                     type="date"
                     id="blood_test_date"
                     value={bloodTestDate.split('T')[0]}
                     onChange={(e) => setBloodTestDate(e.target.value)}
+                />
+
+                <label htmlFor="vaccination_date">Vakcina dátuma:</label>
+                <input
+                    type="date"
+                    id="vaccination_date"
+                    value={vaccinationDate.split('T')[0]}
+                    onChange={(e) => setVaccinationDate(e.target.value)}
                 />
 
                 <button type="submit">Frissítés</button>

@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 const DownloadToExcel = ({ horses }) => {
+    
   const prepareData = () => {
     const headers = [
       { label: "Név", key: "name" },

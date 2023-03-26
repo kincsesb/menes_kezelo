@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DownloadToExcel from './ImportToExcel';
+axios.defaults.baseURL = 'http://localhost:5001';
 
 const HorseList = () => {
   const [horses, setHorses] = useState([]);
@@ -63,14 +64,14 @@ const HorseList = () => {
     const currentDate = new Date();
     const vaccinationDate = new Date(horse.vaccination_date);
     const timeSinceVaccination = currentDate.getTime() - vaccinationDate.getTime();
-  
+
     if (horse.work_type === 'Verseny') {
       return timeSinceVaccination >= fourMonthsInMilliseconds;
     } else {
       return timeSinceVaccination >= tenMonthsInMilliseconds;
     }
   }
-  
+
   function sortHorses(a, b) {
     if (sortCriteria === '') {
       return 0;
@@ -189,18 +190,18 @@ const HorseList = () => {
             }}
           >
             <p id='horseName'>Név: {horse.horse_name}</p>
-            <p>Születési Dátum: {formatDate(horse.horse_birthdate)}</p>
-            <p>Apja: {horse.horse_father}</p>
-            <p>Anyja: {horse.horse_mother}</p>
-            <p>Neme: {horse.gender}</p>
-            <p>Fajta: {horse.bred}</p>
-            <p>Szín: {horse.color}</p>
-            <p>Foglalkoztatás: {horse.work_type}</p>
             <p>Útlevélszáma: {horse.passport_number}</p>
             <p>Chipszáma: {horse.chip_number}</p>
+            <p>Foglalkoztatás: {horse.work_type}</p>
+            <p>Fajta: {horse.bred}</p>
             <p>Vérvétel dátuma: {formatDate(horse.blood_test_date)}</p>
             <p>Vakcina dátuma: {formatDate(horse.vaccination_date)}</p>
-            <Link to={`/update/${horse.id}`}><button>Módosítás</button></Link>
+            <Link to={`/update/${horse.id}`}>
+              <button>Módosítás</button>
+            </Link>
+            <Link to={`/showdetails/${horse.id}`}>
+              <button>Ló részletei</button>
+            </Link>
           </div>
         ))}
       </div>

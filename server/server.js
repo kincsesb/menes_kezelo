@@ -30,97 +30,135 @@ app.get('/horses', async (req, res) => {
 });
 
 app.put('/horses/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { work_type, vaccination_date, blood_test_date } = req.body;
-  
-      const updateQuery = `
-        UPDATE horses
-        SET work_type = $1, vaccination_date = $2, blood_test_date = $3
-        WHERE id = $4
-      `;
-  
-      await client.query(updateQuery, [work_type, vaccination_date, blood_test_date, id]);
-  
-      res.status(200).json({ message: `Ló adatai frissítve az ID: ${id} alapján.` });
-    } catch (error) {
-      console.error('Hiba történt a ló adatainak frissítése közben:', error);
-      res.status(500).json({ error: 'Hiba történt a ló adatainak frissítése közben.' });
-    }
-  });
-  
+  try {
+    const { id } = req.params;
+    const { work_type, vaccination_date, blood_test_date } = req.body;
 
-  //BLOB
-  //LONG TEXT
-  //A megjegyzés rovathoz
-  
-  app.get('/horses/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      console.log(`Lekérdezés azonosítója: ${id}`); // Hozzáadott console.log
+    const updateQuery = `
+      UPDATE horses
+      SET work_type = $1, vaccination_date = $2, blood_test_date = $3
+      WHERE id = $4
+    `;
 
-      const selectQuery = `
-        SELECT * FROM horses WHERE id = $1
-      `;
-  
-      const result = await client.query(selectQuery, [id]);
-  
-      if (result.rowCount > 0) {
-        res.status(200).json(result.rows[0]);
-      } else {
-        res.status(404).json({ message: `Nem található ló az ID: ${id} alapján.` });
-      }
-    } catch (error) {
-      console.error('Hiba történt a ló lekérdezése közben:', error);
-      res.status(500).json({ error: 'Hiba történt a ló lekérdezése közben.' });
-    }
-  });
-  
-  app.post('/horses', async (req, res) => {
-    try {
-        const {
-            horse_name,
-            horse_birthdate,
-            horse_father,
-            horse_mother,
-            gender,
-            bred,
-            color,
-            work_type,
-            passport_number,
-            chip_number,
-            blood_test_date,
-            vaccination_date,
-        } = req.body;
+    await client.query(updateQuery, [work_type, vaccination_date, blood_test_date, id]);
 
-        const insertQuery = `
-            INSERT INTO horses (
-                horse_name, horse_birthdate, horse_father, horse_mother, gender, bred, color, work_type, passport_number, chip_number, blood_test_date, vaccination_date
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-        `;
-
-        await client.query(insertQuery, [
-            horse_name,
-            horse_birthdate,
-            horse_father,
-            horse_mother,
-            gender,
-            bred,
-            color,
-            work_type,
-            passport_number,
-            chip_number,
-            blood_test_date,
-            vaccination_date,
-        ]);
-
-        res.status(201).json({ message: 'Ló sikeresen hozzáadva.' });
-    } catch (error) {
-        console.error('Hiba történt a ló hozzáadása közben:', error);
-        res.status(500).json({ error: 'Hiba történt a ló hozzáadása közben.' });
-    }
+    res.status(200).json({ message: `Ló adatai frissítve az ID: ${id} alapján.` });
+  } catch (error) {
+    console.error('Hiba történt a ló adatainak frissítése közben:', error);
+    res.status(500).json({ error: 'Hiba történt a ló adatainak frissítése közben.' });
+  }
 });
 
+app.put('/horses/:id/notes', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { note } = req.body;
+
+    const updateQuery = `
+      UPDATE horses
+      SET note = $1
+      WHERE id = $2
+    `;
+
+    await client.query(updateQuery, [note, id]);
+
+    res.status(200).json({ message: `Ló megjegyzése frissítve az ID: ${id} alapján.` });
+  } catch (error) {
+    console.error('Hiba történt a ló megjegyzésének frissítése közben:', error);
+    res.status(500).json({ error: 'Hiba történt a ló megjegyzésének frissítése közben.' });
+  }
+});
+
+
+app.get('/horses/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(`Lekérdezés azonosítója: ${id}`); // Hozzáadott console.log
+
+    const selectQuery = `
+        SELECT * FROM horses WHERE id = $1
+      `;
+
+    const result = await client.query(selectQuery, [id]);
+
+    if (result.rowCount > 0) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(404).json({ message: `Nem található ló az ID: ${id} alapján.` });
+    }
+  } catch (error) {
+    console.error('Hiba történt a ló lekérdezése közben:', error);
+    res.status(500).json({ error: 'Hiba történt a ló lekérdezése közben.' });
+  }
+});
+
+app.post('/horses', async (req, res) => {
+  try {
+    const {
+      horse_name,
+      horse_birthdate,
+      horse_father,
+      horse_mother,
+      gender,
+      bred,
+      color,
+      work_type,
+      passport_number,
+      chip_number,
+      blood_test_date,
+      vaccination_date,
+      note, // Hozzáadva
+    } = req.body;
+
+    const insertQuery = `
+        INSERT INTO horses (
+          horse_name, horse_birthdate, horse_father, horse_mother, gender, bred, color, work_type, passport_number, chip_number, blood_test_date, vaccination_date, note
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+      `;
+
+    await client.query(insertQuery, [
+      horse_name,
+      horse_birthdate,
+      horse_father,
+      horse_mother,
+      gender,
+      bred,
+      color,
+      work_type,
+      passport_number,
+      chip_number,
+      blood_test_date,
+      vaccination_date,
+      note,
+    ]);
+
+    res.status(201).json({ message: 'Ló sikeresen hozzáadva.' });
+  } catch (error) {
+    console.error('Hiba történt a ló hozzáadása közben:', error);
+    res.status(500).json({ error: 'Hiba történt a ló hozzáadása közben.' });
+  }
+});
+
+app.delete('/horses/:id/notes', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleteQuery = `
+      UPDATE horses
+      SET note = ''
+      WHERE id = $1
+    `;
+
+    await client.query(deleteQuery, [id]);
+
+    res.status(200).json({ message: `Ló megjegyzése törölve az ID: ${id} alapján.` });
+  } catch (error) {
+    console.error('Hiba történt a ló megjegyzésének törlése közben:', error);
+    res.status(500).json({ error: 'Hiba történt a ló megjegyzésének törlése közben.' });
+  }
+});
+
+
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+  console.log(`Server is running on port ${port}`);
+});
