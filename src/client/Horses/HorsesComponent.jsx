@@ -19,8 +19,6 @@ const HorseList = () => {
   const [sortDirection, setSortDirection] = useState('');
   const [dateRange, setDateRange] = useState({ from: '', to: '' });
 
-  //Születési dátum szerinti szűrés
-
   useEffect(() => {
     const fetchHorses = async () => {
       try {
