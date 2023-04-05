@@ -9,6 +9,7 @@ import Footer from "./client/Footer/Footer"
 import UpdateHorse from "./client/Update/UpdateHorse";
 import AddHorse from "./client/AddHorse/AddHorse";
 import ShowDetails from "./client/Horses/HorseDetails";
+import ForageCalculator from "./client/Forage/ForageCalculator";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/addhorse" element={<AddHorse />} />
           <Route path="/update/:id" element={<UpdateHorse/>} />
           <Route path="/showdetails/:id" element={<ShowDetails/>} />
+          <Route path="/forage" element={<ForageCalculator/>} />
         </Routes>
         <Footer />
       </Router>
