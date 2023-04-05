@@ -5,6 +5,28 @@ import axios from 'axios';
 import DownloadToExcel from './ImportToExcel';
 axios.defaults.baseURL = 'http://localhost:5001';
 
+const workTypeOptions = [
+  { value: 'Szopós csikó Nóniusz', label: 'Szopós csikó Nóniusz' },
+  { value: 'Növendék csikó Nóniusz 1 éves', label: 'Növendék csikó Nóniusz 1 éves' },
+  { value: 'Növendék csikó Nóniusz 2 éves', label: 'Növendék csikó Nóniusz 2 éves' },
+  { value: 'Növendék csikó Nóniusz 3 éves vagy a feletti', label: 'Növendék csikó Nóniusz 3 éves vagy a feletti' },
+  { value: 'Tenyész kanca Nóniusz', label: 'Tenyész kanca Nóniusz' },
+  { value: 'Tenyész mén Nóniusz', label: 'Tenyész mén Nóniusz' },
+  { value: 'STV  haszn.kiképzés Nóniusz', label: 'STV  haszn.kiképzés Nóniusz' },
+  { value: 'Használati ló Pusztaötös', label: 'Használati ló Pusztaötös' },
+  { value: 'Használati ló id. forg. -hátas', label: 'Használati ló id. forg. -hátas' },
+  { value: 'Használati ló csikós hátas', label: 'Használati ló csikós hátas' },
+  { value: 'Szerződéses boxos bértartás', label: 'Szerződéses boxos bértartás' },
+  { value: 'Szerződéses ménesi bértartás', label: 'Szerződéses ménesi bértartás' },
+  { value: 'Ügyvezetői lótartás', label: 'Ügyvezetői lótartás' },
+  { value: 'Dolgozói lóbértartás', label: 'Dolgozói lóbértartás' },
+  { value: 'Idegen helyen lévő', label: 'Idegen helyen lévő' },
+  { value: 'Állami bérmén/egyéb idegen tul.állat', label: 'Állami bérmén/egyéb idegen tul.állat' },
+  { value: 'Magyar sportló T.kanca', label: 'Magyar sportló T.kanca' },
+  { value: 'Magyar sport csikó', label: 'Magyar sport csikó' },
+  { value: 'Magyar sport növendék ló MSP SKP is benne van', label: "Magyar sport növendék ló MSP SKP is benne van" },
+];
+
 const HorseList = () => {
   const [horses, setHorses] = useState([]);
   const [searchName, setSearchName] = useState('');
@@ -147,11 +169,9 @@ const HorseList = () => {
 
         <select className='filter' value={searchWorkType} onChange={e => setSearchWorkType(e.target.value)}>
           <option value="">Összes foglalkoztatás</option>
-          <option value="Csikós hátas">Csikós hátas</option>
-          <option value="Infó fogat">Infó fogat</option>
-          <option value="Magyar Sport Tenyész kanca">Magyar Sport Tenyész kanca</option>
-          <option value="Nóniusz Tenyész kanca">Nóniusz Tenyész kanca</option>
-          <option value="Verseny">Verseny</option>
+          {workTypeOptions.map(option => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
         </select>
 
         <select
@@ -175,10 +195,10 @@ const HorseList = () => {
         </select>
 
       </div>
-        <div className='centered'>
-          <Link to={`/addhorse`}><button className="margin-right">Ló hozzáadása</button></Link>
-          <DownloadToExcel horses={filteredHorses} />
-        </div>
+      <div className='centered'>
+        <Link to={`/addhorse`}><button className="margin-right">Ló hozzáadása</button></Link>
+        <DownloadToExcel horses={filteredHorses} />
+      </div>
       <div class="line-1"></div>
       <div className='container'>
         {filteredHorses.sort(sortHorses).map((horse) => (

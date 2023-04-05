@@ -2,6 +2,27 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+const workTypeOptions = [
+    { value: 'Szopós csikó Nóniusz', label: 'Szopós csikó Nóniusz' },
+    { value: 'Növendék csikó Nóniusz 1 éves', label: 'Növendék csikó Nóniusz 1 éves' },
+    { value: 'Növendék csikó Nóniusz 2 éves', label: 'Növendék csikó Nóniusz 2 éves' },
+    { value: 'Növendék csikó Nóniusz 3 éves vagy a feletti', label: 'Növendék csikó Nóniusz 3 éves vagy a feletti' },
+    { value: 'Tenyész kanca Nóniusz', label: 'Tenyész kanca Nóniusz' },
+    { value: 'Tenyész mén Nóniusz', label: 'Tenyész mén Nóniusz' },
+    { value: 'STV  haszn.kiképzés Nóniusz', label: 'STV  haszn.kiképzés Nóniusz' },
+    { value: 'Használati ló Pusztaötös', label: 'Használati ló Pusztaötös' },
+    { value: 'Használati ló id. forg. -hátas', label: 'Használati ló id. forg. -hátas' },
+    { value: 'Használati ló csikós hátas', label: 'Használati ló csikós hátas' },
+    { value: 'Szerződéses boxos bértartás', label: 'Szerződéses boxos bértartás' },
+    { value: 'Szerződéses ménesi bértartás', label: 'Szerződéses ménesi bértartás' },
+    { value: 'Ügyvezetői lótartás', label: 'Ügyvezetői lótartás' },
+    { value: 'Dolgozói lóbértartás', label: 'Dolgozói lóbértartás' },
+    { value: 'Idegen helyen lévő', label: 'Idegen helyen lévő' },
+    { value: 'Állami bérmén/egyéb idegen tul.állat', label: 'Állami bérmén/egyéb idegen tul.állat' },
+    { value: 'Magyar sportló T.kanca', label: 'Magyar sportló T.kanca' },
+    { value: 'Magyar sport csikó', label: 'Magyar sport csikó' },
+    { value: 'Magyar sport növendék ló MSP SKP is benne van', label: "Magyar sport növendék ló MSP SKP is benne van" },
+];
 
 const UpdateHorse = () => {
     const { id } = useParams();
@@ -68,15 +89,16 @@ const UpdateHorse = () => {
                 <label htmlFor="work_type">Foglalkoztatás:</label>
                 <select
                     id="work_type"
-                    value={workType}
-                    onChange={(e) => setWorkType(e.target.value)}
+                    name="work_type"
+                    value={horse.work_type}
+                    onChange={e => setWorkType(e.target.value)}
                 >
-                    <option value="">Válasszon foglalkoztatást</option>
-                    <option value="Verseny">Verseny</option>
-                    <option value="Csikós hátas">Csikós hátas</option>
-                    <option value="Infó fogat">Infó fogat</option>
-                    <option value="Nóniusz Tenyész kanca">Nóniusz Tenyész kanca</option>
-                    <option value="Magyar Sport Tenyész kanca">Magyar Sport Tenyész kanca</option>
+                    <option value="">--Válassz foglalkoztatást--</option>
+                    {workTypeOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
                 </select>
 
                 <label htmlFor="blood_test_date">Vérvétel dátuma:</label>
