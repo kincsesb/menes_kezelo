@@ -79,16 +79,16 @@ const HorseList = () => {
   }, [horses, searchName, searchChip, searchPassport, searchColor, searchBreed, searchGender, searchWorkType, dateRange]);
 
   function shouldHighlightHorse(horse) {
-    const ficeMonthsInMilliseconds = 5 * 30 * 24 * 60 * 60 * 1000;
+    const fiveMonthsInMilliseconds = 5 * 30 * 24 * 60 * 60 * 1000;
     const tenMonthsInMilliseconds = 10 * 30 * 24 * 60 * 60 * 1000;
     const currentDate = new Date();
     const vaccinationDate = new Date(horse.vaccination_date);
     const bloodTestDate = new Date(horse.blood_test_date);
     const timeSinceVaccination = currentDate.getTime() - vaccinationDate.getTime();
     const timeSinceBloodTest = currentDate.getTime() - bloodTestDate.getTime();
-
-    if (horse.work_type === 'Verseny') {
-      return timeSinceVaccination >= ficeMonthsInMilliseconds;
+    //Not actual
+    if (horse.work_type === 'Magyar sport növendék ló MSP SKP is benne van') {
+      return timeSinceVaccination >= fiveMonthsInMilliseconds;
     } else {
       return timeSinceVaccination >= tenMonthsInMilliseconds || timeSinceBloodTest >= tenMonthsInMilliseconds;
     }

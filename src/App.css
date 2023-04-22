@@ -121,17 +121,6 @@ body {
   margin-bottom: 20px;
 }
 
-.horseDetails {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
-  align-items: center;
-  border-radius: 10px;
-  margin-top: 5%;
-  }
-  .horseDetails > :nth-child(2) {
-    margin-top: -80%;
-  }
 
 .horseDetails p {
   margin: 8px 0;
@@ -195,11 +184,31 @@ body {
   border-radius: 20px;
   align-items: stretch;
 }
-.informations{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 15px;
-  align-items: center;
+
+.horseDetails {
+  display: flex;
   border-radius: 10px;
   margin-top: 5%;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  flex: 1;
+}
+
+.informations {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  width: 100%;
 }

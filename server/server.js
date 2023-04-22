@@ -17,6 +17,7 @@ const config = {
 };
 
 const client = new Client(config);
+
 client.connect();
 
 app.get('/horses', async (req, res) => {

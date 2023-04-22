@@ -4,19 +4,42 @@ import FeedTable from "./FeedTable";
 
 axios.defaults.baseURL = "http://localhost:5001";
 
+//Not actual
+// const workTypes = [
+//     "Csikós hátas",
+//     "Infó fogat",
+//     "Magyar Sport Tenyész kanca",
+//     "Nóniusz Tenyész kanca",
+//     "Verseny"
+// ];
+
 const workTypes = [
-    "Csikós hátas",
-    "Infó fogat",
-    "Magyar Sport Tenyész kanca",
-    "Nóniusz Tenyész kanca",
-    "Verseny"
-];
+    'Szopós csikó Nóniusz',
+    'Növendék csikó Nóniusz 1 éves',
+    'Növendék csikó Nóniusz 2 éves',
+    'Növendék csikó Nóniusz 3 éves vagy a feletti',
+    'Tenyész kanca Nóniusz',
+    'Tenyész mén Nóniusz',
+    'STV  haszn.kiképzés Nóniusz',
+    'Használati ló Pusztaötös',
+    'Használati ló id. forg. -hátas',
+    'Használati ló csikós hátas',
+    'Szerződéses boxos bértartás',
+    'Szerződéses ménesi bértartás',
+    'Ügyvezetői lótartás',
+    'Dolgozói lóbértartás',
+    'Idegen helyen lévő',
+    'Állami bérmén/egyéb idegen tul.állat',
+    'Magyar sportló T.kanca',
+    'Magyar sport csikó',
+    'Magyar sport növendék ló MSP SKP is benne van',
+  ];
 
 const baleWeights = {
     meadowHay: 319.6,
     alfalfaHay: 283.5,
     straw: 319.6,
-    oats: 0,
+    oats: 1,
 };
 
 function ForageCalculator() {
