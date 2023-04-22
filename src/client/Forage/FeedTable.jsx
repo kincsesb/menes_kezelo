@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
+//Inkább bála mint össz tömeg megadása.
 
 function FeedTable({ horseData, onDailyNormChange, onTotalFeedChange, totalActualFeed, baleWeight, horses }) {
     const [calculatedData, setCalculatedData] = useState(horseData);
@@ -32,7 +33,7 @@ function FeedTable({ horseData, onDailyNormChange, onTotalFeedChange, totalActua
 
     const totalHorses = calculatedData.reduce((acc, group) => acc + group.count, 0);
     const totalFeed = calculatedData.reduce((acc, group) => acc + group.total_feed, 0);
-    
+
     return (
         <table>
             <thead>

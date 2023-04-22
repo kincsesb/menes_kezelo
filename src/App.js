@@ -11,6 +11,11 @@ import AddHorse from "./client/AddHorse/AddHorse";
 import ShowDetails from "./client/Horses/HorseDetails";
 import ForageCalculator from "./client/Forage/ForageCalculator";
 
+
+//Eszköz leltár adatbázis, kezelő, nyilvántartó,törölhető,hozzáadható,módosítható(eszköz neve,kiadás dátuma)
+//Szűrhető dolgozóra
+//Login system, felhasználónév + jelszó, akár emailes authentikációval vagy más "jelszóval"..
+
 function App() {
 
   return (

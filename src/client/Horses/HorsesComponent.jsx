@@ -79,16 +79,18 @@ const HorseList = () => {
   }, [horses, searchName, searchChip, searchPassport, searchColor, searchBreed, searchGender, searchWorkType, dateRange]);
 
   function shouldHighlightHorse(horse) {
-    const fourMonthsInMilliseconds = 4 * 30 * 24 * 60 * 60 * 1000;
+    const ficeMonthsInMilliseconds = 5 * 30 * 24 * 60 * 60 * 1000;
     const tenMonthsInMilliseconds = 10 * 30 * 24 * 60 * 60 * 1000;
     const currentDate = new Date();
     const vaccinationDate = new Date(horse.vaccination_date);
+    const bloodTestDate = new Date(horse.blood_test_date);
     const timeSinceVaccination = currentDate.getTime() - vaccinationDate.getTime();
+    const timeSinceBloodTest = currentDate.getTime() - bloodTestDate.getTime();
 
     if (horse.work_type === 'Verseny') {
-      return timeSinceVaccination >= fourMonthsInMilliseconds;
+      return timeSinceVaccination >= ficeMonthsInMilliseconds;
     } else {
-      return timeSinceVaccination >= tenMonthsInMilliseconds;
+      return timeSinceVaccination >= tenMonthsInMilliseconds || timeSinceBloodTest >= tenMonthsInMilliseconds;
     }
   }
 

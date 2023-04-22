@@ -18,6 +18,9 @@ const AddHorse = () => {
         chip_number: '',
         blood_test_date: '',
         vaccination_date: '',
+        has_children: 'Nem',
+        is_government_subsidized: 'Nem',
+        status: '',
     });
 
     const breedOptions = [
@@ -60,6 +63,7 @@ const AddHorse = () => {
     const handleChange = (e) => {
         setHorse({ ...horse, [e.target.name]: e.target.value });
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -108,13 +112,18 @@ const AddHorse = () => {
                     onChange={handleChange}
                 />
                 <label htmlFor="gender">Neme:</label>
-                <input
+                <select
                     type="text"
                     id="gender"
                     name="gender"
                     value={horse.gender}
                     onChange={handleChange}
-                />
+                >
+                    <option value="">--Válassz nemet--</option>
+                    <option value="Kanca">Kanca</option>
+                    <option value="Mén">Mén</option>
+                    <option value="Herélt">Herélt</option>
+                </select>
                 <label htmlFor="bred">Fajta:</label>
                 <select
                     id="bred"
@@ -158,16 +167,9 @@ const AddHorse = () => {
                         </option>
                     ))}
                 </select>
-                {/* <input
-                    type="text"
-                    id="work_type"
-                    name="work_type"
-                    value={horse.work_type}
-                    onChange={handleChange}
-                /> */}
                 <label htmlFor="passport_number">Útlevélszám:</label>
                 <input
-                    type="number"
+                    type="text"
                     id="passport_number"
                     name="passport_number"
                     value={horse.passport_number}
@@ -197,7 +199,47 @@ const AddHorse = () => {
                     value={horse.vaccination_date}
                     onChange={handleChange}
                 />
-                <button type="submit">Hozzáadás</button>
+                <label htmlFor="status">Státusz:</label>
+                <select
+                    id="status"
+                    name="status"
+                    value={horse.status}
+                    onChange={handleChange}
+                >
+                    <option value="">--Válassz státuszt--</option>
+                    <option value="Telephelyen">Telephelyen</option>
+                    <option value="Eladva">Eladva</option>
+                    <option value="Elhullott">Elhullott</option>
+                </select>
+
+                <label htmlFor="is_government_subsidized">Állami támogatású-e:</label>
+                <select
+                    id="is_government_subsidized"
+                    name="is_government_subsidized"
+                    value={horse.is_government_subsidized}
+                    onChange={handleChange}
+                >
+                    <option value="">--Válassz opciót--</option>
+                    <option value="Igen">Igen</option>
+                    <option value="Nem">Nem</option>
+                </select>
+
+                {horse.gender === "Kanca" && (
+                    <>
+                        <label htmlFor="has_children">Van utódja:</label>
+                        <select
+                            id="has_children"
+                            name="has_children"
+                            value={horse.has_children}
+                            onChange={handleChange}
+                        >
+                            <option value="">--Válassz opciót--</option>
+                            <option value="Igen">Igen</option>
+                            <option value="Nem">Nem</option>
+                        </select>
+                    </>
+                )}
+                <button type="submit" >Hozzáadás</button>
             </form>
         </div>
     );
