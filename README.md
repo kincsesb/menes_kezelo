@@ -38,7 +38,9 @@ To get started with the Horse Registry and Management System, follow these steps
 
 All rights reserved. This project is not open source.
 
-## Contributions
+## Feedback and Support
 
-Contributions are welcome! If you find any issues or have suggestions for improvement, please feel free to open an issue or submit a pull request.
+While this project is primarily for reference and we are not currently accepting code contributions, we still value your feedback. If you encounter any issues or have suggestions for improvement, please feel free to share your thoughts - they help us learn and grow.
+
+Thank you for your understanding and support as we continue to develop and refine our projects!
 
