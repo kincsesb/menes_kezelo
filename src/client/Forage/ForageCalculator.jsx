@@ -87,6 +87,7 @@ function ForageCalculator() {
 
     return (
         <div>
+            <div className="line-1"></div>
             <h1>Takarmány fogyás kalkulátor</h1>
             <div className="line-1"></div>
             <h3>Réti széna</h3>

@@ -1,7 +1,7 @@
 body {
   font-family: 'Playfair Display', serif;
   font-size: 18px;
-  background-color: #F9F4E8;
+  background-color: #faedcd;
 }
 
 .footer_container {
@@ -16,10 +16,13 @@ body {
   margin-right: 0%;
   float: right;
   display: flex;
+  justify-content: center;
 }
+
 
 #navbar_text {
   color: black;
+  margin-top: 20px;
   margin-right: 10px;
   margin-left: 10px;
   font-size: 25px;
@@ -33,6 +36,7 @@ body {
 
 .header {
   display: flex;
+  justify-content: center; 
 }
 
 .footer {
@@ -112,15 +116,32 @@ body {
 }
 
 .addHorseClass {
-  display: block;
-  text-align: center;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  width: 150px;
-  margin-left: 60px;
-  margin-bottom: 20px;
+  text-align: center;
+  width: 600px;
+  margin: auto;
+  margin-top: 50px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
+.addHorseClass form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addHorseClass label {
+  margin-bottom: 5px;
+}
+
+.addHorseClass input,
+.addHorseClass select {
+  width: 350px;
+  text-align: center;
+  margin-bottom: 10px;
+}
 
 .horseDetails p {
   margin: 8px 0;
@@ -145,7 +166,7 @@ body {
 }
 
 .horseDetails button:hover {
-  background-color: #3b3528;
+  background-color: #221e16;
 }
 
 .line-1 {
@@ -172,13 +193,14 @@ body {
   background-color: white;
 }
 
-.profile_pics{
+.profile_pics {
   width: 800px;
   height: auto;
   border-radius: 20px;
   align-items: stretch;
 }
-.horse_passport_pics{
+
+.horse_passport_pics {
   width: 600px;
   height: auto;
   border-radius: 20px;
@@ -212,3 +234,4 @@ body {
   gap: 5px;
   width: 100%;
 }
+

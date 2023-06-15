@@ -62,6 +62,7 @@ function ShowDetails() {
 
     return (
         <div>
+            <div className="line-1"></div>
             <div className="horseDetails">
                 <div className="leftColumn">
                     <img src={`../images/profile_images/${horse.horse_name}_profile_pics.jpg`} alt="" className="profile_pics" />
@@ -71,6 +72,7 @@ function ShowDetails() {
                             <p>Szín: {horse.color}</p>
                             <p>Apja: {horse.horse_father}</p>
                             <p>Anyja: {horse.horse_mother}</p>
+                            <p>Születési dátum: {horse.horse_birthdate.split('T')[0]}</p>
                             <p>Neme: {horse.gender}</p>
                         </div>
                         <div>

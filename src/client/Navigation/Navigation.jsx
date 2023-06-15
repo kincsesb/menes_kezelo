@@ -12,6 +12,7 @@ function Navigation() {
                 <NavLink to="/horses" id="navbar_text"> Lovak </NavLink>
                 <NavLink to="/forage" id="navbar_text"> Takarmányszámadás </NavLink>
           </div>
+          <div className="line-1"></div>
     </div>
   );
 }
