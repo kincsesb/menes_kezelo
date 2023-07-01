@@ -1,0 +1,18 @@
+- Login feature with three user such as Stud Leader, Site Manager, Office Assistant.
+- Add requierment to the AddHorse component like: "* Horse name:"...
+- Create better UI.
+- Update the weather forecast component.
+- Add more horse.
+- Delete horse method.
+
+- Create test for the high risky method such as Login, Add/Edit/Delete horse and the filters.
+- Create test for the SQL Injection, like: I cant reach the users table.
+- Create test for the XSS, so i cant send undisered script.
+
+- Refactor the code.
+- Dockerize it. ✓
+
+- Features
+- Login
+- Tests
+
