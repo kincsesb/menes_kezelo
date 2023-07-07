@@ -2,17 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FeedTable from "./FeedTable";
 
-axios.defaults.baseURL = "http://localhost";
-
-//Not actual
-// const workTypes = [
-//     "Csikós hátas",
-//     "Infó fogat",
-//     "Magyar Sport Tenyész kanca",
-//     "Nóniusz Tenyész kanca",
-//     "Verseny"
-// ];
-
 const workTypes = [
     'Szopós csikó Nóniusz',
     'Növendék csikó Nóniusz 1 éves',
@@ -33,7 +22,7 @@ const workTypes = [
     'Magyar sportló T.kanca',
     'Magyar sport csikó',
     'Magyar sport növendék ló MSP SKP is benne van',
-  ];
+];
 
 const baleWeights = {
     meadowHay: 319.6,
@@ -55,10 +44,10 @@ function ForageCalculator() {
     const [strawData, setStrawData] = useState(initialHorseData(5));
     const [oatsData, setOatsData] = useState(initialHorseData(7));
 
-    const [totalMeadowHay, setTotalMeadowHay] = useState(0)
-    const [totalAlfalfaHay, setTotalAlfalfaHay] = useState(0)
-    const [totalStraw, setTotalStraw] = useState(0)
-    const [totalOats, setTotalOats] = useState(0)
+    const [totalMeadowHayBales, setTotalMeadowHayBales] = useState(0);
+    const [totalAlfalfaHayBales, setTotalAlfalfaHayBales] = useState(0);
+    const [totalStrawBales, setTotalStrawBales] = useState(0);
+    const [totalOatsBales, setTotalOatsBales] = useState(0);
 
     useEffect(() => {
         const fetchHorses = async () => {
@@ -81,9 +70,9 @@ function ForageCalculator() {
         });
     };
 
-    const handleTotalFeedChange = (setter) => (newTotalFeed) => {
-        setter(newTotalFeed);
-      };
+    const handleTotalFeedBalesChange = (setter) => (newTotalFeedBales) => {
+        setter(newTotalFeedBales);
+    };
 
     return (
         <div>
@@ -96,8 +85,8 @@ function ForageCalculator() {
                 onDailyNormChange={handleDailyNormChange(setMeadowHayData)}
                 horses={horses}
                 baleWeight={baleWeights.meadowHay}
-                onTotalFeedChange={handleTotalFeedChange(setTotalMeadowHay)}
-                totalActualFeed={totalMeadowHay}
+                totalActualFeedBales={totalMeadowHayBales}
+                onTotalFeedBalesChange={handleTotalFeedBalesChange(setTotalMeadowHayBales)}
             />
             <div className="line-1"></div>
             <h3>Lucerna széna</h3>
@@ -106,8 +95,8 @@ function ForageCalculator() {
                 onDailyNormChange={handleDailyNormChange(setAlfalfaHayData)}
                 horses={horses}
                 baleWeight={baleWeights.alfalfaHay}
-                onTotalFeedChange={handleTotalFeedChange(setTotalAlfalfaHay)}
-                totalActualFeed={totalAlfalfaHay}
+                totalActualFeedBales={totalAlfalfaHayBales}
+                onTotalFeedBalesChange={handleTotalFeedBalesChange(setTotalAlfalfaHayBales)}
             />
             <div className="line-1"></div>
             <h3>Alomszalma</h3>
@@ -116,8 +105,8 @@ function ForageCalculator() {
                 onDailyNormChange={handleDailyNormChange(setStrawData)}
                 horses={horses}
                 baleWeight={baleWeights.straw}
-                onTotalFeedChange={handleTotalFeedChange(setTotalStraw)}
-                totalActualFeed={totalStraw}
+                totalActualFeedBales={totalStrawBales}
+                onTotalFeedBalesChange={handleTotalFeedBalesChange(setTotalStrawBales)}
             />
             <div className="line-1"></div>
             <h3>Zab</h3>
@@ -126,8 +115,8 @@ function ForageCalculator() {
                 onDailyNormChange={handleDailyNormChange(setOatsData)}
                 horses={horses}
                 baleWeight={baleWeights.oats}
-                onTotalFeedChange={handleTotalFeedChange(setTotalOats)}
-                totalActualFeed={totalOats}
+                totalActualFeedBales={totalOatsBales}
+                onTotalFeedBalesChange={handleTotalFeedBalesChange(setTotalOatsBales)}
             />
             <div className="line-1"></div>
         </div>

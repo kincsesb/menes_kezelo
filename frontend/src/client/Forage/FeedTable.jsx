@@ -2,35 +2,35 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-function FeedTable({ horseData, onDailyNormChange, onTotalFeedChange, totalActualFeed, baleWeight, horses }) {
+function FeedTable({ horseData, onDailyNormChange, onTotalFeedBalesChange, totalActualFeedBales, baleWeight, horses }) {
     const [calculatedData, setCalculatedData] = useState(horseData);
 
-    
     useEffect(() => {
         const updatedHorseData = horseData.map((horseGroup) => {
             const count = horses.filter((horse) => horse.work_type === horseGroup.work_type).length;
             const total_feed = count * horseGroup.daily_norm * 30;
-            
+
             return { ...horseGroup, count, total_feed };
         });
-        
+
         setCalculatedData(updatedHorseData);
     }, [horses, horseData]);
-    
+
     const calculatePercentage = (groupTotalFeed) => {
         return totalFeed !== 0 ? (groupTotalFeed / totalFeed) * 100 : 0;
     };
-    
-    const calculateActualFeed = (percentage) => {
-        return (totalActualFeed * percentage) / 100;
+
+    const calculateActualFeedInBales = (percentage) => {
+        return (totalActualFeedBales * percentage) / 100;
     };
-    
-    const calculateBales = (feed) => {
-        return feed / baleWeight;
+
+    const calculateActualFeedInKg = (feedInBales) => {
+        return feedInBales * baleWeight;
     };
 
     const totalHorses = calculatedData.reduce((acc, group) => acc + group.count, 0);
     const totalFeed = calculatedData.reduce((acc, group) => acc + group.total_feed, 0);
+
 
     return (
         <table>
@@ -48,8 +48,8 @@ function FeedTable({ horseData, onDailyNormChange, onTotalFeedChange, totalActua
             <tbody>
                 {calculatedData.map((row, index) => {
                     const percentage = calculatePercentage(row.total_feed);
-                    const actualFeed = calculateActualFeed(percentage);
-                    const bales = calculateBales(actualFeed);
+                    const actualFeedInBales = calculateActualFeedInBales(percentage);
+                    const actualFeedInKg = calculateActualFeedInKg(actualFeedInBales);
 
                     return (
                         <tr key={index}>
@@ -64,8 +64,8 @@ function FeedTable({ horseData, onDailyNormChange, onTotalFeedChange, totalActua
                             </td>
                             <td>{row.total_feed}</td>
                             <td>{percentage.toFixed(2)}%</td>
-                            <td>{actualFeed.toFixed(2)}</td>
-                            <td>{bales.toFixed(2)}</td>
+                            <td>{actualFeedInKg.toFixed(2)}</td>
+                            <td>{actualFeedInBales.toFixed(2)}</td>
                         </tr>
                     );
                 })}
@@ -77,14 +77,14 @@ function FeedTable({ horseData, onDailyNormChange, onTotalFeedChange, totalActua
                     <td></td>
                     <td>{totalFeed}</td>
                     <td></td>
+                    <td>{(totalActualFeedBales * baleWeight).toFixed(2)}</td>
                     <td>
                         <input
                             type="number"
-                            value={totalActualFeed}
-                            onChange={(e) => onTotalFeedChange(e.target.value)}
+                            value={totalActualFeedBales}
+                            onChange={(e) => onTotalFeedBalesChange(e.target.value)}
                         />
                     </td>
-                    <td>{(totalActualFeed / baleWeight).toFixed(2)}</td>
                 </tr>
             </tfoot>
         </table>

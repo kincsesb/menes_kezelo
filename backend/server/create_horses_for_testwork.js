@@ -1,4 +1,5 @@
 const { Client } = require('pg');
+require('dotenv').config();
 
 const config = {
     user: 'kincsesbence',
@@ -8,99 +9,142 @@ const config = {
     database: 'matai_menes_menes_kezelo',
 };
 
-function getRandomElement(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
-
 const menNames = [
-    "Atlasz-8",
-    "Bajnok-11",
-    "Báró-39",
-    "Bársony-4",
-    "Bikadér-3",
-    "Bársonyos-3",
-    "Cigány-3",
-    "Cigány-40",
-    "Csajág-9",
-    "Csákó-34",
+    "Atlasz",
+    "Bajnok",
+    "Báró",
+    "Bársony",
+    "Bikadér",
+    "Bársonyos",
+    "Cigány",
+    "Cigány",
+    "Csajág",
+    "Csákó",
+    "Cassiano",
+    "Calato",
+    "Nótás",
+    "Daliás",
+    "Carpaccio",
+    "Sandro"
 ];
 
 const kancaNames = [
-    "Fáni-15",
-    "Fagyöngy-8",
-    "Fehér-28",
-    "Fecske-15",
-    "Fény-7",
-    "Fodor-5",
-    "Fogoly-5",
-    "Foltos-3",
-    "Foltos-22",
-    "Füge-3",
+    "Für Elise",
+    "Kamilla",
+    "Pinka",
+    "Norma",
+    "Eperjes",
+    "Keringő",
+    "Enyelgő",
+    "Szahara",
+    "Con Cassina",
+    "Fernando Balerina",
+    "Fácán",
+    "Jojoba",
+    "Daru",
+    "Friderika",
+    "Evita"
 ];
 
 const horseNames = [
-    "Gazdag-4",
-    "Eperjes-9",
-    "Norma-13",
-    "Enyelgő-14",
-    "Paso Doble-18",
-    "Jojoba-22",
-    "Für Elise-25",
-    "Kamilla-28",
-    "Báró-34",
-    "Várda-38",
-    "Vezuv-43",
-    "Csatlós-47",
-    "Piedone-51",
-    "Pandora-56",
-    "Pinka-59",
-    "Gazdag-63",
-    "Nótás-67",
-    "Kozák-72",
-    "Lurkó-75",
-    "Vezlr-79",
+    "Gazdag",
+    "Eperjes",
+    "Norma",
+    "Enyelgő",
+    "Paso Doble",
+    "Jojoba",
+    "Für Elise",
+    "Kamilla",
+    "Báró",
+    "Várda",
+    "Vezuv",
+    "Csatlós",
+    "Piedone",
+    "Pandora",
+    "Pinka",
+    "Gazdag",
+    "Nótás",
+    "Kozák",
+    "Lurkó",
+    "Vezér",
+    "Daliás",
+    "Keringő",
+    "Nótás",
+    "Una Bella",
+    "Esthajnal",
+    "Evita",
+    "Friderika"
 ];
 
-const workTypes = [
-    "Csikós hátas",
-    "Infó fogat",
-    "Magyar Sport Tenyész kanca",
-    "Nóniusz Tenyész kanca",
-    "Verseny"
+const workTypeOptions = [
+    'Szopós csikó Nóniusz',
+    'Növendék csikó Nóniusz 1 éves',
+    'Növendék csikó Nóniusz 2 éves',
+    'Növendék csikó Nóniusz 3 éves vagy a feletti',
+    'Tenyész kanca Nóniusz',
+    'Tenyész mén Nóniusz',
+    'STV  haszn.kiképzés Nóniusz',
+    'Használati ló Pusztaötös',
+    'Használati ló id. forg. -hátas',
+    'Használati ló csikós hátas',
+    'Szerződéses boxos bértartás',
+    'Szerződéses ménesi bértartás',
+    'Ügyvezetői lótartás',
+    'Dolgozói lóbértartás',
+    'Idegen helyen lévő',
+    'Állami bérmén/egyéb idegen tul.állat',
+    'Magyar sportló T.kanca',
+    'Magyar sport csikó',
+    'Magyar sport növendék ló MSP SKP is benne van',
 ];
 
-const genders = [
-    "Mén",
-    "Kanca"
-];
+const statusOptions = ['Telephelyen', 'Eladva', 'Elhullott'];
 
-const breeds = [
-    "Magyar Sport ló",
-    "Nóniusz"
-];
+const genders = ['Kanca', 'Mén', 'Herélt'];
 
-const colors = [
-    "Pej",
-    "Sárga",
-    "Fekete",
-    "Nyári Fekete",
-    "Szürke"
-];
+const colors = ['Fekete', 'Nyári fekete', 'Pej', 'Sárga', 'Szürke'];
+
+const breeds = ['Magyar Sport ló', 'Nóniusz'];
+
+const uniqueHorseNames = Array.from(new Set([...horseNames, ...menNames, ...kancaNames]));
+
+
+function getRandomElementWithoutRemove(arr) {
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    return arr[randomIndex];
+}
+
+function getRandomGender() {
+    return Math.random() < 0.5 ? 'Kanca' : 'Herélt';
+}
 
 function generateRandomHorse() {
+    const workType = getRandomElementWithoutRemove(workTypeOptions);
+    const bred = workType.toLowerCase().includes('nóniusz') 
+    || workType.toLowerCase().includes('csikós') 
+    || workType.toLowerCase().includes('fogat')
+    || workType.toLowerCase().includes('pusztaötös') ? 'Nóniusz' : 'Magyar Sport ló';
+
+    const gender = workType.toLowerCase().includes('kanca') ? 'Kanca' : 
+               workType.toLowerCase().includes('mén') ? 'Mén' : getRandomGender();
+
     const horse = {
-        horse_name: getRandomElement(horseNames),
-        horse_birthdate: new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365)),
-        horse_father: getRandomElement(menNames),
-        horse_mother: getRandomElement(kancaNames),
-        gender: getRandomElement(genders),
-        bred: getRandomElement(breeds),
-        color: getRandomElement(colors),
-        work_type: getRandomElement(workTypes),
-        passport_number: Math.floor(Math.random() * 1000000),
-        chip_number: Math.floor(Math.random() * 1000000),
+        horse_name: `${getRandomElementWithoutRemove(uniqueHorseNames)} - ${Math.floor(Math.random() * 20)}`,
+        horse_birthdate: new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365 * 10)),
+        horse_father: `${getRandomElementWithoutRemove(menNames)} - ${Math.floor(Math.random() * 20)}`,
+        horse_mother: `${getRandomElementWithoutRemove(kancaNames)} - ${Math.floor(Math.random() * 20)}`,
+        gender: gender,
+        bred: bred,
+        color: getRandomElementWithoutRemove(colors),
+        work_type: workType,
+        passport_number: `${bred === 'Magyar Sport ló' ? 'HUHSH' : 'HUN'}${Math.floor(Math.random() * 1000000000)}`,
+        chip_number: Math.floor(Math.random() * 1000000000),
         blood_test_date: new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365)),
         vaccination_date: new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365)),
+        has_children: "Nem",
+        is_government_subsidized: "Nem",
+        status: "Telephelyen",
+        note: "",
     };
 
     return horse;
@@ -123,8 +167,12 @@ async function insertHorse(horse) {
       passport_number,
       chip_number,
       blood_test_date,
-      vaccination_date
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
+      vaccination_date,
+      has_children,
+      is_government_subsidized,
+      status,
+      note
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
   `;
 
     const values = [
@@ -140,6 +188,10 @@ async function insertHorse(horse) {
         horse.chip_number,
         horse.blood_test_date,
         horse.vaccination_date,
+        horse.has_children,
+        horse.is_government_subsidized,
+        horse.status,
+        horse.note,
     ];
 
     try {
@@ -150,11 +202,18 @@ async function insertHorse(horse) {
     }
 }
 
-(async () => {
-    for (let i = 0; i < 20; i++) {
+async function createHorses() {
+    const client = new Client(config);
+    client.connect();
+
+    await client.query("DELETE FROM public.horses");
+
+    for (let i = 0; i < 251; i++) {
         const horse = generateRandomHorse();
         await insertHorse(horse);
     }
 
     client.end();
-})();
+}
+
+module.exports = createHorses;

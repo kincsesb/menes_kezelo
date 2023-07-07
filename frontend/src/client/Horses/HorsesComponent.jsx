@@ -123,7 +123,8 @@ const HorseList = () => {
       <div class="line-1"></div>
       <div className='centered'>
         <h1>Lovak listája</h1>
-        <h2>Összes ló darabszám: {filteredHorses.length}</h2>
+        <h2>Összes ló darabszám:</h2>
+        <h2 id="number_of_horse">{filteredHorses.length}</h2>
       </div>
       <div className='filters'>
         <input className='filter' type="text" value={searchName} onChange={e => setSearchName(e.target.value)} placeholder="Név szűrő" />

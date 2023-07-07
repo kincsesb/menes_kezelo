@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
-axios.defaults.baseURL = 'http://localhost';
-
 function ShowDetails() {
     const { id } = useParams();
     const [horse, setHorse] = useState(null);
@@ -57,9 +55,6 @@ function ShowDetails() {
         return <div>Betöltés...</div>;
     };
 
-
-    //Képfeltöltés
-    // ./public/images
     return (
         <div>
             <div className="line-1"></div>

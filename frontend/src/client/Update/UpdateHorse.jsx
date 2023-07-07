@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+
 const workTypeOptions = [
     { value: 'Szopós csikó Nóniusz', label: 'Szopós csikó Nóniusz' },
     { value: 'Növendék csikó Nóniusz 1 éves', label: 'Növendék csikó Nóniusz 1 éves' },
@@ -47,7 +48,7 @@ const UpdateHorse = () => {
     useEffect(() => {
         const fetchHorse = async () => {
             try {
-                const response = await axios.get(`http://backend:5001/horses/${id}`);
+                const response = await axios.get(`/horses/${id}`);
                 const horseData = response.data;
                 setHorse(horseData);
                 setHorseName(horseData.horse_name);
@@ -93,7 +94,7 @@ const UpdateHorse = () => {
             status: status
         };
         try {
-            await axios.put(`http://backend:5001/horses/${id}`, updatedHorse);
+            await axios.put(`/horses/${id}`, updatedHorse);
             navigate('/horses');
         } catch (err) {
             console.error('Hiba a ló frissítése közben:', err);
@@ -107,7 +108,7 @@ const UpdateHorse = () => {
     };
 
     return (
-        <div className='horse'>
+        <div className='addHorseClass'>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="horse_name">Név:</label>
                 <input
@@ -151,7 +152,7 @@ const UpdateHorse = () => {
                     <option value="">--Válassz nemet--</option>
                     <option value="Mén">Mén</option>
                     <option value="Kanca">Kanca</option>
-                    <option value="Csődör">Csődör</option>
+                    <option value="Herélt">Herélt</option>
                 </select>
 
                 <label htmlFor="bred">Fajta:</label>

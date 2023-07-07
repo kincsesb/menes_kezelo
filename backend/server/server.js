@@ -9,6 +9,8 @@ const createTable = require('./create_calendar_table');
 
 const createHorseTable = require('./create_horse_table_for_mkdb');
 
+const createHorses = require('./create_horses_for_testwork');
+
 app.use(cors());
 app.use(express.json());
 
@@ -40,7 +42,7 @@ const connectWithRetry = async () => {
 }
 
 connectWithRetry();
-
+createHorses().catch(err => console.log)
 
 app.get('/horses', async (req, res) => {
   try {
